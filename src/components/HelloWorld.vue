@@ -1,14 +1,19 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h3>Hello Vue</h3>
+    <music-player autoplay="false" >
+
+    </music-player>
   </div>
 </template>
 
 <script>
-
+import MusicPlayer from './MusicPlayer/index'
 export default {
   name: 'HelloWorld',
+  components: {
+    MusicPlayer
+  },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
