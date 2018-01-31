@@ -1,22 +1,29 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <music-player autoplay="false" >
+    <music-player :autoplay=false ref="player" :status="status" >
 
     </music-player>
+    <!-- <span class="play" @click="play">play</span> -->
   </div>
 </template>
 
 <script>
-import MusicPlayer from './MusicPlayer/index'
+import MusicPlayer from "./MusicPlayer/index";
 export default {
   name: 'HelloWorld',
   components: {
     MusicPlayer
   },
-  data () {
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      status:pause
+    }
+  },
+  methods: {
+    play() {
+      this.$refs.player.play()
+      console.log('play')
     }
   }
 }
@@ -24,7 +31,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
 ul {

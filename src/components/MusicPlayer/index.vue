@@ -1,11 +1,17 @@
 <template>
-  <audio
-    :src="MusicList[0].file"
-    :autoplay="auto"
-    controls
-
-  >
-  </audio>
+  <div class="music-player">
+    <audio
+      :src="MusicList[0].file"
+      :autoplay="auto"
+      controls
+      ref="audio"
+    >
+    </audio>
+    <span class="play" @click="play">play</span>
+    <!-- <span class="play" @click="play">play</span>
+    <span class="play" @click="play">play</span>
+    <span class="play" @click="play">play</span> -->
+  </div>  
 </template>
 <script>
 import {MUSIC_LIST} from '@/data/MusicList.js'
@@ -13,8 +19,12 @@ console.log(MUSIC_LIST)
 export default {
   props: {
     autoplay: {
-      type: String,
+      type: Boolean,
       required: false
+    },
+    status:{
+      type:String,
+      required:false
     }
   },
   data () {
@@ -24,7 +34,9 @@ export default {
     }
   },
   methods: {
-
+    play(){
+      this.$refs.audio.play()
+    }
   },
   mounted () {
     console.log(this.autoplay)
