@@ -1,7 +1,7 @@
 import Vue from 'vue'
 // import Vue from 'vue/dist/vue.js'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Root from '@/components/Root'
 // import HelloWorld from '@/components/aplayer.jsx'
 
 Vue.use(Router)
@@ -11,7 +11,7 @@ export default new Router({
     {
       path: '/',
       name: 'HelloWorld',
-      component: HelloWorld
+      component: Root
     }
   ]
 })

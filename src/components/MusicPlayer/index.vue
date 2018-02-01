@@ -1,45 +1,86 @@
 <template>
   <div class="music-player">
     <audio
-      :src="MusicList[0].file"
-      :autoplay="auto"
-      controls
+      :src="url"
       ref="audio"
+      @timeupdate="timeupdate"
+      @seektime = "seekTime"
     >
     </audio>
-    <span class="play" @click="play">play</span>
+
     <!-- <span class="play" @click="play">play</span>
     <span class="play" @click="play">play</span>
     <span class="play" @click="play">play</span> -->
-  </div>  
+  </div>
 </template>
 <script>
-import {MUSIC_LIST} from '@/data/MusicList.js'
-console.log(MUSIC_LIST)
+
 export default {
   props: {
     autoplay: {
       type: Boolean,
       required: false
     },
-    status:{
-      type:String,
-      required:false
+    url: {
+      type: String,
+      required: true
+    },
+    seekTime: {
+      type: Number,
+      required: false
+    },
+    status: {
+      type: String,
+      required: true
     }
   },
   data () {
     return {
-      MusicList: MUSIC_LIST,
-      auto: this.autoplay
+      // auto: this.autoplay
     }
   },
   methods: {
-    play(){
+    play () {
       this.$refs.audio.play()
+    },
+    pause () {
+      this.$refs.audio.pause()
+    },
+    timeupdate () {
+      // console.log(this.$refs.audio.currentTime)
+      this.$emit('timeupdate', this.$refs.audio.currentTime)
+      // this.seekTime =
     }
   },
   mounted () {
-    console.log(this.autoplay)
+    // console.log(this.autoplay)
+    if (this.autoplay) {
+      this.play()
+      // console.log('autoplay')
+    }
+  },
+  updated () {
+    this.$nextTick(
+      () => {
+        // console.log(this.seekTime)
+      }
+    )
+  },
+  watch: {
+    status (newVal, oldVal) {
+      // console.log(newVal)
+      newVal === 'play' ? this.play() : this.pause()
+    },
+    seekTime (newVal, oldVal) {
+      if (newVal > 0) {
+        this.$refs.audio.currentTime = newVal
+      }
+    },
+    url (newVal, oldVal) {
+      // console.log(newVal + 'audio')
+      this.$refs.audio.onloadeddata = () => this.$refs.audio.play() // 异步
+    }
+
   }
 
 }
