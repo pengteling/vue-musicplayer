@@ -22,12 +22,12 @@ module.exports = {
   // add your custom rules here
   rules: {
     // allow async-await
-    'generator-star-spacing': 'off',
-    'no-trailing-spaces': 'off',
-    'space-before-function-paren':'off',
-    'space-before-blocks': 'off',
-    'quotes':'off',
-    'semi':'off',
+    // 'generator-star-spacing': 'off',
+    // 'no-trailing-spaces': 'off',
+    // 'space-before-function-paren':'off',
+    // 'space-before-blocks': 'off',
+    // 'quotes':'off',
+    // 'semi':'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
        
