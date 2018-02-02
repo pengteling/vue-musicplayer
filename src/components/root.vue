@@ -12,18 +12,21 @@
 <script>
 import MusicPlayer from './MusicPlayer'
 import { MUSIC_LIST } from '@/data/MusicList.js'
+let url = MUSIC_LIST[0].file
 export default {
   components: {
     MusicPlayer
   },
   data () {
     return {
+      // MUSIC_LIST: MUSIC_LIST,
+      // currentItem: MUSIC_LIST[0],
       MUSIC_LIST: MUSIC_LIST,
-      currentItem: MUSIC_LIST[0],
       opt: {
-        url: MUSIC_LIST[0].file,
-        autoplay: true,
-        status: 'pause'
+        url: url,
+        autoplay: false,
+        status: 'pause',
+        volume: 80
       }
     }
   },

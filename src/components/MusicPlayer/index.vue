@@ -78,7 +78,9 @@ export default {
     },
     url (newVal, oldVal) {
       // console.log(newVal + 'audio')
-      this.$refs.audio.onloadeddata = () => this.$refs.audio.play() // 异步
+      if (this.status === 'play') {
+        this.$refs.audio.onloadeddata = () => this.$refs.audio.play() // 异步
+      }
     }
 
   }

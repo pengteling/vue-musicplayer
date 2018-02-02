@@ -36,6 +36,7 @@ export default {
       autoplay: this.options.autoplay,
       status: this.options.status,
       url: this.options.url,
+      volume: this.options.volume,
       currentTime: 0,
       seekTime: 0
     }
