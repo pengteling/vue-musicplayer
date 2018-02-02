@@ -40,6 +40,9 @@ export default {
   },
   mounted () {
     console.log(this.autoplay)
+  },
+  watch:{
+    
   }
 
 }
