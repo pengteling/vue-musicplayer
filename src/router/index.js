@@ -1,7 +1,8 @@
 import Vue from 'vue'
 // import Vue from 'vue/dist/vue.js'
 import Router from 'vue-router'
-import Root from '@/components/Root'
+import Root from '@/js/root.vue'
+import Player from '@/js/pages/Player.vue'
 // import HelloWorld from '@/components/aplayer.jsx'
 
 Vue.use(Router)
@@ -10,8 +11,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: Root
+      component: Root,
+      children: [
+        {
+          path: '',
+          name: 'Player',
+          component: Player
+        }
+      ]
     }
   ]
 })
