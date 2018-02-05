@@ -1,23 +1,31 @@
-
+import Progress from '@/js/components/Progress.jsx'
 import './Player.scss'
 import {EventBus} from '@/eventBus'
 export default {
   name: 'Player',
-  data(){
-    return{
-      currentItem :{}
+  components: {
+    Progress
+  },
+  data () {
+    return {
+      currentItem: {},
+      leftTime: '',
+      currentPercentAbsolute: 0
     }
-  } ,
-  mounted() {   
-    
-    EventBus.$on('setMedia',currentItem => {
+  },
+  mounted () {
+    EventBus.$on('setMedia', currentItem => {
       // console.log(currentItem)
       // this.opt.url = currentItem.file
-      //this.$refs.audio.setSrc(currentItem.file)
+      // this.$refs.audio.setSrc(currentItem.file)
       this.currentItem = currentItem
     })
-  },  
-  render() {
+    EventBus.$on('timeupdate', (leftTime, currentPercentAbsolute) => {
+      this.leftTime = leftTime
+      this.currentPercentAbsolute = currentPercentAbsolute
+    })
+  },
+  render () {
     return (
       <div class="player-page">
         <h1 class="caption">
@@ -30,13 +38,14 @@ export default {
             </h2>
             <h3 class="music-artist mt10">{this.currentItem.artist}</h3>
             <div class="row mt20">
-              <div class="left-time -col-auto">-01:31</div>
+              <div class="left-time -col-auto">-{this.leftTime}</div>
               <div class="volume-container">
                 <i class="icon-volume rt" style="top: 5px; left: -5px;"></i>
                 <div class="volume-wrapper">
-                  <div class="components-progress">
+                  {/* <div class="components-progress">
                     <div class="progress" style="width: 80%; background: rgb(170, 170, 170);"></div>
-                  </div>
+                  </div> */}
+                  <Progress progress={this.currentPercentAbsolute * 100} barColor="#2f9842" />
                 </div>
               </div>
             </div>
@@ -64,8 +73,7 @@ export default {
           </div>
         </div>
       </div>
-    
-        )
+
+    )
   }
 }
-

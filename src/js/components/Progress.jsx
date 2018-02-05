@@ -1,13 +1,14 @@
+import './Progress.scss'
 export default {
-  props:{
-    progress:{
-      type: Number      
+  props: {
+    progress: {
+      type: Number
     },
-    barColor:{
-      type:String
+    barColor: {
+      type: String
     }
   },
-  render() {
+  render () {
     return (
       <div class="components-progress" onClick={this.changeProgress} ref="progressbar">
         <div class="progress" style={{
@@ -18,10 +19,10 @@ export default {
     )
   },
   methods: {
-    changeProgress(e){
-      let progress =(e.clientX -this.$refs.progressbar.getBoundingClientRect().left)/this.$refs.progressbar.clientWidth
+    changeProgress (e) {
+      let progress = (e.clientX - this.$refs.progressbar.getBoundingClientRect().left) / this.$refs.progressbar.clientWidth
       console.log(progress)
-      this.$emit("changeProgress",progress)
+      this.$emit('changeProgress', progress)
     }
   }
 }
