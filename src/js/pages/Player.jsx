@@ -27,8 +27,28 @@ export default {
           return "随机播放"
       }
     }
-  },
+  }, 
+ 
+  // beforeRouteEnter (to, from, next) {
+  //   //console.log("Text")
+  //   next()
+  // },
+  // created(){
+  //   /* 切换路由回来后重新获取数据 */
+  //   EventBus.$on('setData',(currentItem,repeatType)=>{
+  //     console.log(repeatType)
+  //     this.currentItem = currentItem
+  //     this.repeatType = repeatType
+  //   })
+  // },
   mounted () {
+    console.log(this.currentItem)
+    EventBus.$on('setData',(currentItem,repeatType)=>{      
+      //console.log(this.currentItem)
+      this.currentItem = currentItem      
+      this.repeatType = repeatType
+    })
+
     EventBus.$on('setMedia', currentItem => {
       // console.log(currentItem)
       // this.opt.url = currentItem.file
@@ -49,13 +69,14 @@ export default {
     EventBus.$on('changeRepeatType',(repeatType)=>{
       this.repeatType = repeatType
     })
+    
   },
   // updated(){
   //   EventBus.$on('getVolume', (volume) => {
   //     this.volume = volume  *100    
   //   })
   // },
-  methods:{
+  methods:{    
     changeVolume(volume){
       EventBus.$emit('changeVolume',volume)
     },
@@ -76,12 +97,12 @@ export default {
     return (
       <div class="player-page">
         <h1 class="caption">
-          <a href="/list">我的私人音乐坊 &gt;</a>
+        <router-link to = {{path : '/list'}}>我的私人音乐坊 &gt;</router-link>
         </h1>
         <div class="mt20 row">
           <div class="controll-wrapper">
             <h2 class="music-title">
-              <a href="/lrc">{this.currentItem.title}</a>
+            <router-link to = {{path : '/lrc'}}>{this.currentItem.title}</router-link>
             </h2>
             <h3 class="music-artist mt10">{this.currentItem.artist}</h3>
             <div class="row mt20">
@@ -111,10 +132,10 @@ export default {
             </div>
           </div>
           <div class="-col-auto cover">
-            <a href="/lrc">
+            <router-link to="/lrc">
               <img class={this.paused?"pause":"play"} src={this.currentItem.cover}
                 alt={this.currentItem.title} />
-            </a>
+            </router-link>
           </div>
         </div>
       </div>

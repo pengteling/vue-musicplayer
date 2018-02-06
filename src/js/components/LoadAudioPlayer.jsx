@@ -35,6 +35,7 @@ export default{
       this.currentTime = currentTime
       this.paused = this.$refs.audio.getPaused()
       EventBus.$emit('timeupdate', this.leftTime, this.currentPercentAbsolute ,this.paused)
+      EventBus.$emit('lrcTime',currentTime)
     },
     loadedmetadata (duration) {
       this.duration = duration
@@ -84,12 +85,18 @@ export default{
       this.$refs.audio.setCurrentTime(progress * this.duration) 
       //timeupdate时会自动回传回播放页 
       //暂停时还是需要回传一次
-      EventBus.$emit('timeupdate', this.leftTime, this.currentPercentAbsolute)
+      EventBus.$emit('timeupdate', this.leftTime, this.currentPercentAbsolute ,this.paused)
       
     })
     /* 监听 播放暂停事件 */
     EventBus.$on('playPause',()=>{
       this.$refs.audio.doPlayPause()
     })    
+
+    /* 路由切换后 player组件的音量丢失 */
+    EventBus.$on('setData',()=>{
+      //console.log("音量")
+      setTimeout(()=>EventBus.$emit('getVolume',this.volume),500)
+    })
   }
 }

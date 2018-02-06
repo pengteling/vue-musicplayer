@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Root from '@/js/root.vue'
 import Player from '@/js/pages/Player.jsx'
 import LoadPlayer from '@/js/components/LoadAudioPlayer.jsx'
-import Lrc from '@/js/pages/Lrc.vue'
+import Lrc from '@/js/components/Lrc.jsx'
 import List from '@/js/pages/List.vue'
 import Header from '@/js/components/Header.vue'
 // import HelloWorld from '@/components/aplayer.jsx'
@@ -11,10 +11,12 @@ import Header from '@/js/components/Header.vue'
 Vue.use(Router)
 
 export default new Router({
+
   routes: [
     {
       path: '/',
-      components: { // 多路由
+      name: 'Main',
+      components: { // 多个视图
         default: Root,
         header: Header,
         Loadplayer: LoadPlayer
@@ -27,6 +29,10 @@ export default new Router({
           // props: (router) => ({
           //   text: '123'
           // })
+          // beforeEnter: (to, from, next) => {
+          //   console.log(from)
+          //   next()
+          // }
         },
         {
           path: 'lrc',
