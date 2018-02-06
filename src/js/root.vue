@@ -7,6 +7,7 @@ import '@/assets/sass/comm.scss'
 // import Header from './components/Header.vue'
 
 export default {
+  name: 'Main'
   // components: {
   //   Header
   // }

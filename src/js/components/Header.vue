@@ -10,4 +10,7 @@
 </template>
 <script>
 import './header.scss'
+export default{
+  name: 'Header'
+}
 </script>

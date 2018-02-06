@@ -10,7 +10,22 @@ export default {
     return {
       currentItem: {},
       leftTime: '',
-      currentPercentAbsolute: 0
+      currentPercentAbsolute: 0,
+      volume: 0,
+      paused:true,
+      repeatType: 'cycle'
+    }
+  },
+  computed:{
+    repeatTypeStr(){
+      switch (this.repeatType){
+        case "cycle":
+          return "顺序播放"
+        case "once":
+          return "单次循环"
+        case "random":
+          return "随机播放"
+      }
     }
   },
   mounted () {
@@ -20,10 +35,42 @@ export default {
       // this.$refs.audio.setSrc(currentItem.file)
       this.currentItem = currentItem
     })
-    EventBus.$on('timeupdate', (leftTime, currentPercentAbsolute) => {
+    EventBus.$on('timeupdate', (leftTime, currentPercentAbsolute ,paused) => {
       this.leftTime = leftTime
       this.currentPercentAbsolute = currentPercentAbsolute
+      this.paused = paused
     })
+    /* 获取实际播放音量大小 */
+    EventBus.$on('getVolume', (volume) => {
+      this.volume = volume  *100    
+      //console.log("getVolume")
+    })
+    /* 获取repeatType */
+    EventBus.$on('changeRepeatType',(repeatType)=>{
+      this.repeatType = repeatType
+    })
+  },
+  // updated(){
+  //   EventBus.$on('getVolume', (volume) => {
+  //     this.volume = volume  *100    
+  //   })
+  // },
+  methods:{
+    changeVolume(volume){
+      EventBus.$emit('changeVolume',volume)
+    },
+    changeProgress(progress){
+      EventBus.$emit('changeProgress',progress)
+    },
+    playPause(){
+      EventBus.$emit('playPause')
+    },
+    prevNext(type){ //type 为 prev或next
+      EventBus.$emit('prevNext', type)
+    },
+    changeRepeatType(){
+      EventBus.$emit('repeatType')
+    }
   },
   render () {
     return (
@@ -45,29 +92,27 @@ export default {
                   {/* <div class="components-progress">
                     <div class="progress" style="width: 80%; background: rgb(170, 170, 170);"></div>
                   </div> */}
-                  <Progress progress={this.currentPercentAbsolute * 100} barColor="#2f9842" />
+                  <Progress progress={this.volume}  barColor="#2f9842" onChangeProgress = {this.changeVolume} />
                 </div>
               </div>
             </div>
             <div style="height: 10px; line-height: 10px;">
-              <div class="components-progress">
-                <div class="progress" style="width: 61.4333%; background: rgb(47, 152, 66);"></div>
-              </div>
+              <Progress progress={this.currentPercentAbsolute }  barColor="#2f9842" onChangeProgress = {this.changeProgress} />
             </div>
             <div class="mt35 row">
               <div>
-                <i class="icon prev"></i>
-                <i class="icon ml20 pause"></i>
-                <i class="icon next ml20"></i>
+                <i class="icon prev" onClick = {this.prevNext.bind(this,"prev")}></i>
+                <i class={`icon ml20 ${this.paused? "play":"icon ml20 pause"}`} onClick={this.playPause}></i>
+                <i class="icon next ml20" onClick = {this.prevNext.bind(this,"next")}></i>
               </div>
               <div class="-col-auto">
-                <i class="icon repeat-cycle"></i>
+                <i class= {`icon repeat-${this.repeatType}`} title={this.repeatTypeStr} onClick = {this.changeRepeatType}></i>
               </div>
             </div>
           </div>
           <div class="-col-auto cover">
             <a href="/lrc">
-              <img class="play" src={this.currentItem.cover}
+              <img class={this.paused?"pause":"play"} src={this.currentItem.cover}
                 alt={this.currentItem.title} />
             </a>
           </div>
