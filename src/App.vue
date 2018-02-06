@@ -61,6 +61,8 @@ export default {
         EventBus.$emit('getList', this.$data)
       }
     })
+    /* LRC页面获取数据 */
+    EventBus.$emit('sendLrc', this.currentItem)
   },
   watch: {
     '$route' (to, from) {
@@ -73,7 +75,13 @@ export default {
         setTimeout(() => EventBus.$emit('setData', this.currentItem, this.repeatType), 0)
       } else if (to.name === 'List') {
         setTimeout(() => EventBus.$emit('getList', this.$data), 0)
+      } else if (to.name === 'Lrc') {
+        setTimeout(() => EventBus.$emit('sendLrc', this.currentItem), 500)
       }
+    },
+    currentItem () {
+      //  console.log('test')
+      EventBus.$emit('sendLrc', this.currentItem)
     }
     // : 'fetchData' //改变路由后重新获取数据
 

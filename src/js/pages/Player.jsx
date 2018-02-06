@@ -12,23 +12,23 @@ export default {
       leftTime: '',
       currentPercentAbsolute: 0,
       volume: 0,
-      paused:true,
+      paused: true,
       repeatType: 'cycle'
     }
   },
-  computed:{
-    repeatTypeStr(){
-      switch (this.repeatType){
-        case "cycle":
-          return "顺序播放"
-        case "once":
-          return "单次循环"
-        case "random":
-          return "随机播放"
+  computed: {
+    repeatTypeStr () {
+      switch (this.repeatType) {
+        case 'cycle':
+          return '顺序播放'
+        case 'once':
+          return '单次循环'
+        case 'random':
+          return '随机播放'
       }
     }
-  }, 
- 
+  },
+
   // beforeRouteEnter (to, from, next) {
   //   //console.log("Text")
   //   next()
@@ -43,9 +43,9 @@ export default {
   // },
   mounted () {
     console.log(this.currentItem)
-    EventBus.$on('setData',(currentItem,repeatType)=>{      
-      //console.log(this.currentItem)
-      this.currentItem = currentItem      
+    EventBus.$on('setData', (currentItem, repeatType) => {
+      // console.log(this.currentItem)
+      this.currentItem = currentItem
       this.repeatType = repeatType
     })
 
@@ -55,41 +55,40 @@ export default {
       // this.$refs.audio.setSrc(currentItem.file)
       this.currentItem = currentItem
     })
-    EventBus.$on('timeupdate', (leftTime, currentPercentAbsolute ,paused) => {
+    EventBus.$on('timeupdate', (leftTime, currentPercentAbsolute, paused) => {
       this.leftTime = leftTime
       this.currentPercentAbsolute = currentPercentAbsolute
       this.paused = paused
     })
     /* 获取实际播放音量大小 */
     EventBus.$on('getVolume', (volume) => {
-      this.volume = volume  *100    
-      //console.log("getVolume")
+      this.volume = volume * 100
+      // console.log("getVolume")
     })
     /* 获取repeatType */
-    EventBus.$on('changeRepeatType',(repeatType)=>{
+    EventBus.$on('changeRepeatType', (repeatType) => {
       this.repeatType = repeatType
     })
-    
   },
   // updated(){
   //   EventBus.$on('getVolume', (volume) => {
-  //     this.volume = volume  *100    
+  //     this.volume = volume  *100
   //   })
   // },
-  methods:{    
-    changeVolume(volume){
-      EventBus.$emit('changeVolume',volume)
+  methods: {
+    changeVolume (volume) {
+      EventBus.$emit('changeVolume', volume)
     },
-    changeProgress(progress){
-      EventBus.$emit('changeProgress',progress)
+    changeProgress (progress) {
+      EventBus.$emit('changeProgress', progress)
     },
-    playPause(){
+    playPause () {
       EventBus.$emit('playPause')
     },
-    prevNext(type){ //type 为 prev或next
+    prevNext (type) { // type 为 prev或next
       EventBus.$emit('prevNext', type)
     },
-    changeRepeatType(){
+    changeRepeatType () {
       EventBus.$emit('repeatType')
     }
   },
@@ -97,12 +96,12 @@ export default {
     return (
       <div class="player-page">
         <h1 class="caption">
-        <router-link to = {{path : '/list'}}>我的私人音乐坊 &gt;</router-link>
+          <router-link to = {{path: '/list'}}>我的私人音乐坊 &gt;</router-link>
         </h1>
         <div class="mt20 row">
           <div class="controll-wrapper">
             <h2 class="music-title">
-            <router-link to = {{path : '/lrc'}}>{this.currentItem.title}</router-link>
+              <router-link to = {{path: '/lrc'}}>{this.currentItem.title}</router-link>
             </h2>
             <h3 class="music-artist mt10">{this.currentItem.artist}</h3>
             <div class="row mt20">
@@ -113,18 +112,18 @@ export default {
                   {/* <div class="components-progress">
                     <div class="progress" style="width: 80%; background: rgb(170, 170, 170);"></div>
                   </div> */}
-                  <Progress progress={this.volume}  barColor="#2f9842" onChangeProgress = {this.changeVolume} />
+                  <Progress progress={this.volume} barColor="#2f9842" onChangeProgress = {this.changeVolume} />
                 </div>
               </div>
             </div>
             <div style="height: 10px; line-height: 10px;">
-              <Progress progress={this.currentPercentAbsolute }  barColor="#2f9842" onChangeProgress = {this.changeProgress} />
+              <Progress progress={this.currentPercentAbsolute } barColor="#2f9842" onChangeProgress = {this.changeProgress} />
             </div>
             <div class="mt35 row">
               <div>
-                <i class="icon prev" onClick = {this.prevNext.bind(this,"prev")}></i>
-                <i class={`icon ml20 ${this.paused? "play":"icon ml20 pause"}`} onClick={this.playPause}></i>
-                <i class="icon next ml20" onClick = {this.prevNext.bind(this,"next")}></i>
+                <i class="icon prev" onClick = {this.prevNext.bind(this, 'prev')}></i>
+                <i class={`icon ml20 ${this.paused ? 'play' : 'icon ml20 pause'}`} onClick={this.playPause}></i>
+                <i class="icon next ml20" onClick = {this.prevNext.bind(this, 'next')}></i>
               </div>
               <div class="-col-auto">
                 <i class= {`icon repeat-${this.repeatType}`} title={this.repeatTypeStr} onClick = {this.changeRepeatType}></i>
@@ -133,7 +132,7 @@ export default {
           </div>
           <div class="-col-auto cover">
             <router-link to="/lrc">
-              <img class={this.paused?"pause":"play"} src={this.currentItem.cover}
+              <img class={this.paused ? 'pause' : 'play'} src={this.currentItem.cover}
                 alt={this.currentItem.title} />
             </router-link>
           </div>
