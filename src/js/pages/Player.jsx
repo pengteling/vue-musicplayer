@@ -1,7 +1,7 @@
 import Progress from '@/js/components/Progress.jsx'
 import './Player.scss'
 import {EventBus} from '@/eventBus'
-import { mapState } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'Player',
@@ -18,39 +18,8 @@ export default {
       repeatType: 'cycle'
     }
   },
-  computed:
-
-    mapState({
-      // 映射 this.count 为 store.state.count
-      count: 'count',
-      repeatTypeStr () {
-        switch (this.repeatType) {
-          case 'cycle':
-            return '顺序播放'
-          case 'once':
-            return '单次循环'
-          case 'random':
-            return '随机播放'
-        }
-      }
-    }),
-    // count () {
-    //   return this.$store.state.count
-    // }
-    // mapState({
-    //   // 箭头函数可使代码更简练
-    //   count: state => state.count,
-
-    //   // 传字符串参数 'count' 等同于 `state => state.count`
-    //   countAlias: 'count',
-
-    //   // 为了能够使用 `this` 获取局部状态，必须使用常规函数
-    //   countPlusLocalState (state) {
-    //     return state.count + this.localCount
-    //   }
-    // })
-  //}
-  
+  computed:{},
+     
 
   // beforeRouteEnter (to, from, next) {
   //   //console.log("Text")
@@ -65,7 +34,9 @@ export default {
   //   })
   // },
   mounted () {
-    console.log(this.currentItem)
+   
+    
+    //    console.log(this.currentItem)
     EventBus.$on('setData', (currentItem, repeatType) => {
       // console.log(this.currentItem)
       this.currentItem = currentItem
@@ -99,6 +70,7 @@ export default {
   //   })
   // },
   methods: {
+    
     changeVolume (volume) {
       EventBus.$emit('changeVolume', volume)
     },
