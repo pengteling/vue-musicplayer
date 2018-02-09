@@ -7,7 +7,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 Vue.use(router)
 const store = new Vuex.Store({
-  strict: true
+  strict: process.env.NODE_ENV !== 'production'
 })
 
 /* eslint-disable no-new */
