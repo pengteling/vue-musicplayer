@@ -1,6 +1,6 @@
 import Progress from '@/js/components/Progress.jsx'
 import './Player.scss'
-import {EventBus} from '@/eventBus'
+
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
@@ -10,16 +10,31 @@ export default {
   },
   data () {
     return {
-      currentItem: {},
-      leftTime: '',
-      currentPercentAbsolute: 0,
-      volume: 0,
-      paused: true,
-      repeatType: 'cycle'
+      // currentItem: {},
+      // leftTime: '',
+      // currentPercentAbsolute: 0,
+      // volume: 0,
+      // paused: true,
+      // repeatType: 'cycle'
     }
   },
-  computed:{},
-     
+  computed: {
+    ...mapState('player', {
+      volume: state => state.volume
+
+    }),
+    ...mapState('list', {
+      repeatType: state => state.repeatType
+    }),
+    ...mapGetters('player', {
+
+      leftTime: 'leftTime',
+      currentPercentAbsolute: 'currentPercentAbsolute'
+    }),
+    ...mapGetters('list', {
+      currentItem: 'currentMusicItem'
+    })
+  },
 
   // beforeRouteEnter (to, from, next) {
   //   //console.log("Text")
@@ -34,57 +49,24 @@ export default {
   //   })
   // },
   mounted () {
-   
-    
-    //    console.log(this.currentItem)
-    EventBus.$on('setData', (currentItem, repeatType) => {
-      // console.log(this.currentItem)
-      this.currentItem = currentItem
-      this.repeatType = repeatType
-    })
 
-    EventBus.$on('setMedia', currentItem => {
-      // console.log(currentItem)
-      // this.opt.url = currentItem.file
-      // this.$refs.audio.setSrc(currentItem.file)
-      this.currentItem = currentItem
-    })
-    EventBus.$on('timeupdate', (leftTime, currentPercentAbsolute, paused) => {
-      this.leftTime = leftTime
-      this.currentPercentAbsolute = currentPercentAbsolute
-      this.paused = paused
-    })
-    /* 获取实际播放音量大小 */
-    EventBus.$on('getVolume', (volume) => {
-      this.volume = volume * 100
-      // console.log("getVolume")
-    })
-    /* 获取repeatType */
-    EventBus.$on('changeRepeatType', (repeatType) => {
-      this.repeatType = repeatType
-    })
   },
-  // updated(){
-  //   EventBus.$on('getVolume', (volume) => {
-  //     this.volume = volume  *100
-  //   })
-  // },
+
   methods: {
-    
-    changeVolume (volume) {
-      EventBus.$emit('changeVolume', volume)
+    prevNext (type) {
+
     },
-    changeProgress (progress) {
-      EventBus.$emit('changeProgress', progress)
+    changeVolume () {
+
+    },
+    changeProgress () {
+
     },
     playPause () {
-      EventBus.$emit('playPause')
-    },
-    prevNext (type) { // type 为 prev或next
-      EventBus.$emit('prevNext', type)
+
     },
     changeRepeatType () {
-      EventBus.$emit('repeatType')
+
     }
   },
   render () {
@@ -107,7 +89,7 @@ export default {
                   {/* <div class="components-progress">
                     <div class="progress" style="width: 80%; background: rgb(170, 170, 170);"></div>
                   </div> */}
-                  <Progress progress={this.volume} barColor="#2f9842" onChangeProgress = {this.changeVolume} />
+                  <Progress progress={this.volume * 100} barColor="#2f9842" onChangeProgress = {this.changeVolume} />
                 </div>
               </div>
             </div>

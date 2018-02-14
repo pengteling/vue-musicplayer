@@ -14,7 +14,7 @@
 
 <script>
 import './List.scss'
-import {EventBus} from '@/eventBus'
+// import {EventBus} from '@/eventBus'
 import MusicItem from '@/js/components/MusicItem.jsx'
 export default {
   components: {

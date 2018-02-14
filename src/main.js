@@ -3,12 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import Vuex from 'vuex'
-Vue.use(Vuex)
+import store from './store'
+// import Vuex from 'vuex'
+// Vue.use(Vuex)
 Vue.use(router)
-const store = new Vuex.Store({
-  strict: process.env.NODE_ENV !== 'production'
-})
+// const store = new Vuex.Store({
+//   strict: process.env.NODE_ENV !== 'production'
+// })
 
 /* eslint-disable no-new */
 new Vue({

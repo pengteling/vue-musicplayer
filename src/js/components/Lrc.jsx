@@ -1,4 +1,4 @@
-import {EventBus} from '@/eventBus'
+
 import {parseLrc} from '@/js/components/utils'
 export default{
   name: 'Lrc',

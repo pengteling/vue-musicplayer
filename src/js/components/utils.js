@@ -48,3 +48,9 @@ export const parseLrc = (lrcs) => {
   lrc.sort((a, b) => a[0] - b[0])
   return lrc
 }
+/* 代替eval */
+export const evil = (fn) => {
+  var Fn = Function // 一个变量指向Function，防止有些前端编译工具报错
+
+  return new Fn('return ' + fn)()
+}
