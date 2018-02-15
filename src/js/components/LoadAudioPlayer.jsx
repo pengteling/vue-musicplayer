@@ -1,4 +1,5 @@
-import Player from 'vue-simple-player'
+// import Player from 'vue-simple-player'
+import Player from './mplayer.vue'
 // import {formatTime} from '@/js/components/utils'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
@@ -17,7 +18,7 @@ export default{
     return (
       <div>
         <player
-          opt={ {} }
+          opt={ this.opt }
           ref="audio"
           onTimeupdate={this.timeupdate}
           onLoadedmetadata = {this.loadedmetadata}
@@ -28,7 +29,6 @@ export default{
   },
   methods: {
     ...mapActions('player', {
-
       timeupdate: 'updateTime',
       loadedmetadata: 'getDuration'
     }),
@@ -47,14 +47,21 @@ export default{
 
   },
   computed: {
+    ...mapState('player', {
+      paused: 'paused'
+    }),
     ...mapGetters('player', [
       'currentPercentAbsolute',
       'leftTime'
     ]),
-    ...mapGetters('list', {
-      opt: 'currentMusicItem'
-    })
-
+    ...mapGetters('list', [
+      'currentMusicItem'
+    ])
+  },
+  watch: {
+    currentMusicItem () {
+      this.$refs.audio.setSrc(this.currentMusicItem.file)
+    }
   },
 
   mounted () {

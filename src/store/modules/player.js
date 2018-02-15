@@ -13,6 +13,7 @@ const getters = {
   leftTime (state) {
     return formatTime(state.duration - state.currentTime)
   }
+
 }
 const actions = {
   updateTime ({commit}, time) {
@@ -20,6 +21,9 @@ const actions = {
   },
   getDuration ({commit}, time) {
     commit('getDuration', time)
+  },
+  playPause ({commit}) {
+    commit('playPause')
   }
 }
 
@@ -29,6 +33,13 @@ const mutations = {
   },
   getDuration (state, time) {
     state.duration = time
+  },
+  playPause (state) {
+    if (state.paused) {
+      state.paused = false
+    } else {
+      state.paused = true
+    }
   }
 }
 

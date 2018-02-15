@@ -1,6 +1,6 @@
 import {evil} from '@/js/components/utils'
 const state = {
-  musicList: {},
+  musicList: [],
   currentIndex: 0,
   repeatType: 'cycle'
 }

@@ -27,13 +27,7 @@ export default {
     }
   },
   mounted () {
-    EventBus.$on('getList', (props) => {
-      // console.log(currentItem)
-      // this.currentItem = currentItem
-      // console.log(props)
-      this.currentItem = props.currentItem
-      this.musicList = props.musicList
-    })
+
   }
 
 }

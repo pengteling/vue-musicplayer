@@ -20,7 +20,8 @@ export default {
   },
   computed: {
     ...mapState('player', {
-      volume: state => state.volume
+      volume: state => state.volume,
+      paused: 'paused'
 
     }),
     ...mapState('list', {
@@ -53,6 +54,9 @@ export default {
   },
 
   methods: {
+    ...mapActions('player', {
+      playPause: 'playPause'
+    }),
     prevNext (type) {
 
     },
@@ -62,14 +66,16 @@ export default {
     changeProgress () {
 
     },
-    playPause () {
+    // playPause () {
 
-    },
+    // },
     changeRepeatType () {
 
     }
   },
   render () {
+    // console.log(this.currentItem)
+    if (!this.currentItem) return
     return (
       <div class="player-page">
         <h1 class="caption">
