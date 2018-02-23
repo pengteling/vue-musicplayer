@@ -12,13 +12,17 @@ const getters = {
 
 const actions = {
   loadData ({ commit }) {
-    fetch('http://music.henshui.com/api/musicList.js?!234')
+    return fetch('http://music.henshui.com/api/musicList.js?!234')
       .then(response => response.text())
       .then(response => {
         let musicList = evil(response)
         commit('getMusicList', musicList)
       })
+  },
+  prevNext ({ commit }, type) {
+    commit('prevNext', type)
   }
+
 }
 const mutations = {
   getMusicList (state, musicList) {
@@ -35,7 +39,7 @@ const mutations = {
     state.repeatType = newRepeatType
   },
   prevNext (state, type) {
-    let currentIndex
+    let currentIndex = state.currentIndex
     let num = state.musicList.length
     let repeatType = state.repeatType
     if (repeatType === 'cycle') {

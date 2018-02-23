@@ -28,7 +28,6 @@ export default {
       repeatType: state => state.repeatType
     }),
     ...mapGetters('player', {
-
       leftTime: 'leftTime',
       currentPercentAbsolute: 'currentPercentAbsolute'
     }),
@@ -36,19 +35,6 @@ export default {
       currentItem: 'currentMusicItem'
     })
   },
-
-  // beforeRouteEnter (to, from, next) {
-  //   //console.log("Text")
-  //   next()
-  // },
-  // created(){
-  //   /* 切换路由回来后重新获取数据 */
-  //   EventBus.$on('setData',(currentItem,repeatType)=>{
-  //     console.log(repeatType)
-  //     this.currentItem = currentItem
-  //     this.repeatType = repeatType
-  //   })
-  // },
   mounted () {
 
   },
@@ -57,9 +43,9 @@ export default {
     ...mapActions('player', {
       playPause: 'playPause'
     }),
-    prevNext (type) {
-
-    },
+    ...mapActions('list',{
+      prevNext: 'prevNext'
+    }),    
     changeVolume () {
 
     },
@@ -100,7 +86,7 @@ export default {
               </div>
             </div>
             <div style="height: 10px; line-height: 10px;">
-              <Progress progress={this.currentPercentAbsolute } barColor="#2f9842" onChangeProgress = {this.changeProgress} />
+              <Progress progress={this.currentPercentAbsolute * 100 } barColor="#2f9842" onChangeProgress = {this.changeProgress} />
             </div>
             <div class="mt35 row">
               <div>

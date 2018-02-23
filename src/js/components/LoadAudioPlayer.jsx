@@ -23,6 +23,7 @@ export default{
           onTimeupdate={this.timeupdate}
           onLoadedmetadata = {this.loadedmetadata}
           onEnded = {this.ended}
+          
         />
       </div>
     )
@@ -30,7 +31,8 @@ export default{
   methods: {
     ...mapActions('player', {
       timeupdate: 'updateTime',
-      loadedmetadata: 'getDuration'
+      loadedmetadata: 'getDuration',
+      playPause: 'playPause'
     }),
     ...mapActions('list', {
       loadData: 'loadData'
@@ -61,11 +63,27 @@ export default{
   watch: {
     currentMusicItem () {
       this.$refs.audio.setSrc(this.currentMusicItem.file)
+      
+      //this.$refs.audio.doPlayPause()
+    },
+    paused (){
+      //console.log(this.paused)
+      //console.log(this.$refs.audio)
+      this.$refs.audio.doPlayPause()
+      
     }
   },
 
   mounted () {
     this.loadData()
+      .then(()=>{
+        //  console.log("then")
+          this.playPause()
+          //this.$refs.audio.doPlayPause()
+      })
+      
+    
+    
 
     /* 监听从播放页传来的调整音量 */
   }

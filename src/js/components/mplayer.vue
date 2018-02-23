@@ -1,22 +1,23 @@
 <template>
-  <div class="mplayer">
+  <div class='mplayer'>
     <audio
-      :id="options.id"
+      :id='options.id'
       controls
-      :src="options.url"
-      :autoplay="options.autoplay"
-      :loop ="options.loop"
-      :ref="options.id"
-      @timeupdate="timeupdate"
-      @loadedmetadata="loadedmetadata"
-      @play="playPause"
-      @pause="playPause"
-      @ended="ended"
+      :src='options.url'
+      :autoplay='options.autoplay'
+      :loop ='options.loop'
+      :ref='options.id'
+      @timeupdate='timeupdate'
+      @loadedmetadata='loadedmetadata'
+      @play='playPause'
+      @pause='playPause'
+      @ended='ended'
     >
     </audio>
   </div>
 </template>
 <script>
+import { mapState, mapGetters, mapActions } from 'vuex'
 const defaultOptions = {
   id: 'mplayer',
   autoplay: true,
@@ -42,20 +43,17 @@ export default {
   computed: {
     audio () {
       return this.$refs[this.options.id]
-    }
+    },
+    ...mapState('player', {
+      paused: 'paused'
+    })
   },
   methods: {
-
-    // playPause(){
-    //   this.status = this.audio.paused ? 'pause' : 'play'
-    // },
-    // play(){
-    //   this.audio.play()
-    // },
-    // pause(){
-    //   this.audio.pause()
-    // },
+    ...mapActions('list', {
+      prevNext: 'prevNext'
+    }),
     doPlayPause () {
+      // console.log(this.audio.paused)
       if (this.audio.paused) {
         this.audio.play()
       } else {
@@ -69,7 +67,8 @@ export default {
       return this.audio.paused
     },
     ended () {
-      this.$emit('ended')
+      // this.$emit('ended')
+      this.prevNext('next')
     },
     timeupdate () {
       this.currentTime = this.audio.currentTime
@@ -98,16 +97,20 @@ export default {
     },
     setSrc (url) {
       this.audio.src = url
+      this.audio.pause()
+      if(!this.paused){
+        this.audio.play()
+      }
+      
     }
-
   },
   mounted () {
     // console.log(this.options)
   }
 }
 </script>
-<style lang="scss" scoped>
-.mplayer audio{
-  display:none
+<style lang='scss' scoped>
+.mplayer audio {
+  display: none
 }
 </style>
