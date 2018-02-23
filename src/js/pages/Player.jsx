@@ -41,14 +41,12 @@ export default {
 
   methods: {
     ...mapActions('player', {
-      playPause: 'playPause'
+      playPause: 'playPause',
+      changeVolume: 'changeVolume'
     }),
     ...mapActions('list',{
       prevNext: 'prevNext'
-    }),    
-    changeVolume () {
-
-    },
+    }),        
     changeProgress () {
 
     },

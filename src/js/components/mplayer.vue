@@ -37,7 +37,7 @@ export default {
       options: { ...defaultOptions, ...this.opt },
       currentTime: 0,
       duration: 0,
-      volume: 0.8
+      //volume: 0.8
     }
   },
   computed: {
@@ -76,15 +76,13 @@ export default {
     },
     loadedmetadata () {
       this.duration = this.audio.duration
-      this.audio.volume = this.volume
+      // this.audio.volume = this.volume
       this.$emit('initVolume', this.volume)
 
       this.$emit('loadedmetadata', this.audio.duration)
     },
     setVolume (volume) {
-      this.audio.volume = volume
-      this.volume = volume
-      this.$emit('initVolume', this.volume)
+      this.audio.volume = volume          
     },
     getVolume () {
       return this.audio.volume

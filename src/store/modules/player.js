@@ -24,6 +24,9 @@ const actions = {
   },
   playPause ({commit}) {
     commit('playPause')
+  },
+  changeVolume ({commit}, volume) {
+    commit('changeVolume', volume)
   }
 }
 
@@ -40,6 +43,9 @@ const mutations = {
     } else {
       state.paused = true
     }
+  },
+  changeVolume (state, volume) {
+    state.volume = volume
   }
 }
 

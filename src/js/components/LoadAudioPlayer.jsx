@@ -50,7 +50,8 @@ export default{
   },
   computed: {
     ...mapState('player', {
-      paused: 'paused'
+      paused: 'paused',
+      volume: 'volume'
     }),
     ...mapGetters('player', [
       'currentPercentAbsolute',
@@ -66,11 +67,14 @@ export default{
       
       //this.$refs.audio.doPlayPause()
     },
-    paused (){
+    paused () {
       //console.log(this.paused)
       //console.log(this.$refs.audio)
       this.$refs.audio.doPlayPause()
       
+    },
+    volume (volume) {
+      this.$refs.audio.setVolume(volume)
     }
   },
 
