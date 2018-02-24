@@ -27,6 +27,9 @@ const actions = {
   },
   changeVolume ({commit}, volume) {
     commit('changeVolume', volume)
+  },
+  changeProgress ({commit}, progress) {
+    commit('changeProgress', progress)
   }
 }
 
@@ -46,6 +49,10 @@ const mutations = {
   },
   changeVolume (state, volume) {
     state.volume = volume
+  },
+  changeProgress (state, progress) {
+    // console.log(process)
+    state.currentTime = state.duration * progress
   }
 }
 

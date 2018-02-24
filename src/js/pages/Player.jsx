@@ -42,20 +42,14 @@ export default {
   methods: {
     ...mapActions('player', {
       playPause: 'playPause',
-      changeVolume: 'changeVolume'
+      changeVolume: 'changeVolume',
+      changeProgress: 'changeProgress'
     }),
     ...mapActions('list',{
-      prevNext: 'prevNext'
-    }),        
-    changeProgress () {
-
-    },
-    // playPause () {
-
-    // },
-    changeRepeatType () {
-
-    }
+      prevNext: 'prevNext',
+      changeRepeatType: 'changeRepeatType'
+    })      
+    
   },
   render () {
     // console.log(this.currentItem)

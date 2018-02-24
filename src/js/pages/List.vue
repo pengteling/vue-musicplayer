@@ -14,17 +14,20 @@
 
 <script>
 import './List.scss'
+import { mapState, mapGetters } from 'vuex'
 // import {EventBus} from '@/eventBus'
 import MusicItem from '@/js/components/MusicItem.jsx'
 export default {
   components: {
     MusicItem
   },
-  data () {
-    return {
-      currentItem: {},
-      musicList: {}
-    }
+  computed: {
+    ...mapState('list', {
+      musicList: 'musicList'
+    }),
+    ...mapGetters('list', {
+      currentItem: 'currentMusicItem'
+    })
   },
   mounted () {
 

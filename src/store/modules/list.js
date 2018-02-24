@@ -1,12 +1,27 @@
 import {evil} from '@/js/components/utils'
 const state = {
+
   musicList: [],
   currentIndex: 0,
   repeatType: 'cycle'
+
 }
+// const state = () => {
+//   return {
+//     musicList: [],
+//     currentIndex: 0,
+//     repeatType: 'cycle'
+//   }
+// }
 const getters = {
   currentMusicItem: (state, getters) => {
     return state.musicList[state.currentIndex]
+  },
+  currentFile: (state, getters) => {
+    return state.musicList[state.currentIndex] ? state.musicList[state.currentIndex].file : ''
+  },
+  lrc: (state, getters) => {
+    return state.musicList[state.currentIndex] ? state.musicList[state.currentIndex].lrc : ''
   }
 }
 
@@ -21,6 +36,15 @@ const actions = {
   },
   prevNext ({ commit }, type) {
     commit('prevNext', type)
+  },
+  changMusicItem ({ commit }, musicItem) {
+    commit('changMusicItem', musicItem)
+  },
+  deleteMusicItem ({ commit }, musicItem) {
+    commit('deleteMusicItem', musicItem)
+  },
+  changeRepeatType ({ commit }) {
+    commit('changeRepeatType')
   }
 
 }
@@ -42,15 +66,15 @@ const mutations = {
     let currentIndex = state.currentIndex
     let num = state.musicList.length
     let repeatType = state.repeatType
-    if (repeatType === 'cycle') {
+    if (repeatType === 'cycle' || repeatType === 'once') {
       if (type === 'prev') {
         currentIndex = (currentIndex - 1 + num) % num
       } else {
         currentIndex = (currentIndex + 1) % num
         // console.log(currentIndex)
       }
-    } else if (repeatType === 'once') {
-      // 不变
+    // } else if (repeatType === 'once') {
+    //   // 不变
     } else {
       /* 随机 */
       let rd = (currentIndex) => {
@@ -63,6 +87,21 @@ const mutations = {
       }
       currentIndex = rd(currentIndex)
     }
+    state.currentIndex = currentIndex
+  },
+  changMusicItem (state, musicItem) {
+    let currentIndex = state.musicList.indexOf(musicItem)
+    state.currentIndex = currentIndex
+  },
+  deleteMusicItem (state, musicItem) {
+    // if (state.musicList[state.currentIndex] === musicItem) {
+    //   console.log('删除正在播放的歌曲')
+    // }
+    if (state.musicList.length > 1) {
+      state.musicList = state.musicList.filter((item) => item !== musicItem)
+    }
+    /* 删除后因为list总数发生变化， currentIndex 重置 */
+    let currentIndex = state.currentIndex % state.musicList.length
     state.currentIndex = currentIndex
   }
 }

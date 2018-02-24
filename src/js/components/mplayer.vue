@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 const defaultOptions = {
   id: 'mplayer',
   autoplay: true,
@@ -36,8 +36,8 @@ export default {
     return {
       options: { ...defaultOptions, ...this.opt },
       currentTime: 0,
-      duration: 0,
-      //volume: 0.8
+      duration: 0
+      // volume: 0.8
     }
   },
   computed: {
@@ -82,7 +82,7 @@ export default {
       this.$emit('loadedmetadata', this.audio.duration)
     },
     setVolume (volume) {
-      this.audio.volume = volume          
+      this.audio.volume = volume
     },
     getVolume () {
       return this.audio.volume
@@ -96,10 +96,9 @@ export default {
     setSrc (url) {
       this.audio.src = url
       this.audio.pause()
-      if(!this.paused){
+      if (!this.paused) {
         this.audio.play()
       }
-      
     }
   },
   mounted () {

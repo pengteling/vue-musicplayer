@@ -1,27 +1,50 @@
 
 import {parseLrc} from '@/js/components/utils'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 export default{
   name: 'Lrc',
   data () {
     return {
-      currentTime: 0,
-      lrc: [],
+      // currentTime: 0,
+      // lrc: [],
       curli: 0
     }
   },
-  mounted () {
-    EventBus.$on('lrcTime', (time) => {
-      // console.log(time)
-      this.currentTime = (time)
+  computed:{
+    ...mapGetters('list', {
+      // currentItem: 'currentMusicItem',
+      lrc: 'lrc'
+    }),
+    ...mapState('player',{
+      currentTime : 'currentTime'
+    })
+  },
+  watch:{
+    currentItem (time) {
       if (time === 0) { this.curli = 0 }
-    })
-    EventBus.$on('sendLrc', (currentMusic) => {
-      // console.log(currentMusic)
-      // this.curli = 0
-      this.lrc = parseLrc(currentMusic.lrc)
 
-      // console.log('触电')
-    })
+      if (document.querySelector('.cur')) {
+        // console.log(document.getElementById('cur').offsetTop)
+        let h = document.querySelector('.cur').offsetTop - 143 - 200
+        document.getElementById('lrcUl').scrollTop = h
+      }
+    }
+  },
+  mounted () {
+    // EventBus.$on('lrcTime', (time) => {
+    //   // console.log(time)
+    //   this.currentTime = (time)
+    //   if (time === 0) { this.curli = 0 }
+    // })
+    // EventBus.$on('sendLrc', (currentMusic) => {
+    //   // console.log(currentMusic)
+    this.curli = 0
+    // if(this.currentItem){
+    //   this.lrc = parseLrc(this.currentItem.lrc)
+    // }
+
+    //   // console.log('触电')
+    // })
     // EventBus.$on('timeupdate',(t)=>{
     //   console.log(t)
     // })
@@ -34,7 +57,9 @@ export default{
     }
   },
   render () {
-    // console.log(this.props)
+    console.log(this.lrc)
+    let lrc =  parseLrc(this.lrc)
+    console.log(lrc)
     // let curTime = this.props.jPlayers.AudioPlayer.currentTimeText +'.'+ (this.props.jPlayers.AudioPlayer.currentTime+'').split('.')[1]
     // //console.log(curTime)
     // //let n=0
@@ -42,7 +67,7 @@ export default{
     // //let prevTime=""
     let curTime = this.currentTime
     // console.log(this.lrc)
-    let lrclist = this.lrc.map((item, i) => {
+    let lrclist = lrc.map((item, i) => {
       // console.log(this.currentTime)
       // console.log(item[0])
       if (item[0] <= curTime && i >= this.curli) {

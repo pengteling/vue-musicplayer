@@ -1,4 +1,5 @@
 // import {EventBus} from '@/eventBus'
+import { mapActions } from 'vuex'
 export default{
   props: {
     musicItem: {
@@ -14,15 +15,11 @@ export default{
     // console.log(this.focus)
   },
 
-  methods: {
-    changMusicItem (musicItem) {
-      console.log(musicItem.title)
-      EventBus.$emit('setMedia', musicItem)
-      EventBus.$emit('changeMusic', musicItem)
-    },
-    deleteMusicItem (musicItem) {
-      EventBus.$emit('deleteMusic', musicItem)
-    }
+  methods: {    
+    ...mapActions('list',[
+      'changMusicItem',
+      'deleteMusicItem'
+    ])
   },
   render () {
     return (

@@ -51,18 +51,25 @@ export default{
   computed: {
     ...mapState('player', {
       paused: 'paused',
-      volume: 'volume'
+      volume: 'volume',
+      currentTime : 'currentTime'
     }),
     ...mapGetters('player', [
       'currentPercentAbsolute',
       'leftTime'
     ]),
     ...mapGetters('list', [
-      'currentMusicItem'
-    ])
+      'currentMusicItem',
+      'currentFile'
+    ]),
+    // ...mapGetters('list', {
+    //   currentFile: this.$store.getters['list/currentMusicItem'].file
+    // })
+    // currentFile: currentMusicItem.file
   },
   watch: {
-    currentMusicItem () {
+    currentFile () {
+      console.log("发生变化")
       this.$refs.audio.setSrc(this.currentMusicItem.file)
       
       //this.$refs.audio.doPlayPause()
@@ -70,20 +77,33 @@ export default{
     paused () {
       //console.log(this.paused)
       //console.log(this.$refs.audio)
-      this.$refs.audio.doPlayPause()
-      
+      this.$refs.audio.doPlayPause()      
     },
     volume (volume) {
       this.$refs.audio.setVolume(volume)
+    },
+    currentTime (to, from) {
+      // console.log(to)
+      // console.log(from)
+      /* 观察当前时间改变，大于阀值1则实际改变播放进度 */
+      if(Math.abs(to - from) >1){
+        this.$refs.audio.setCurrentTime(to)
+      }
+
     }
   },
 
   mounted () {
+
     this.loadData()
       .then(()=>{
         //  console.log("then")
           this.playPause()
           //this.$refs.audio.doPlayPause()
+          //console.log(this.$store.getters['list/currentMusicItem'].file)
+          // this.$store.dispatch('player/playPause',{
+            
+          // })
       })
       
     
