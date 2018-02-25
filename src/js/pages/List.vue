@@ -22,15 +22,12 @@ export default {
     MusicItem
   },
   computed: {
-    ...mapState('list', {
+    ...mapState({
       musicList: 'musicList'
     }),
-    ...mapGetters('list', {
+    ...mapGetters({
       currentItem: 'currentMusicItem'
     })
-  },
-  mounted () {
-
   }
 
 }

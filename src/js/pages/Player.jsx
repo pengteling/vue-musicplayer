@@ -19,19 +19,19 @@ export default {
     }
   },
   computed: {
-    ...mapState('player', {
+    ...mapState({
       volume: state => state.volume,
       paused: 'paused'
 
     }),
-    ...mapState('list', {
+    ...mapState({
       repeatType: state => state.repeatType
     }),
-    ...mapGetters('player', {
+    ...mapGetters({
       leftTime: 'leftTime',
       currentPercentAbsolute: 'currentPercentAbsolute'
     }),
-    ...mapGetters('list', {
+    ...mapGetters({
       currentItem: 'currentMusicItem'
     })
   },
@@ -40,12 +40,12 @@ export default {
   },
 
   methods: {
-    ...mapActions('player', {
+    ...mapActions({
       playPause: 'playPause',
       changeVolume: 'changeVolume',
       changeProgress: 'changeProgress'
     }),
-    ...mapActions('list',{
+    ...mapActions({
       prevNext: 'prevNext',
       changeRepeatType: 'changeRepeatType'
     })      

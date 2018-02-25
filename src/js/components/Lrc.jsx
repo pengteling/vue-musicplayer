@@ -11,11 +11,11 @@ export default{
     }
   },
   computed:{
-    ...mapGetters('list', {
+    ...mapGetters({
       // currentItem: 'currentMusicItem',
       lrc: 'lrc'
     }),
-    ...mapState('player',{
+    ...mapState({
       currentTime : 'currentTime'
     })
   },
@@ -57,9 +57,9 @@ export default{
     }
   },
   render () {
-    console.log(this.lrc)
+    //console.log(this.lrc)
     let lrc =  parseLrc(this.lrc)
-    console.log(lrc)
+    //console.log(lrc)
     // let curTime = this.props.jPlayers.AudioPlayer.currentTimeText +'.'+ (this.props.jPlayers.AudioPlayer.currentTime+'').split('.')[1]
     // //console.log(curTime)
     // //let n=0
