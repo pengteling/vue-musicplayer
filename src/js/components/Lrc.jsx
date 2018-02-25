@@ -20,7 +20,7 @@ export default{
     })
   },
   watch:{
-    currentItem (time) {
+    currentTime (time) {
       if (time === 0) { this.curli = 0 }
 
       if (document.querySelector('.cur')) {
