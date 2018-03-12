@@ -42,7 +42,14 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    }
+    },
+    //其实很简单的，只要配置这个参数就可以了
+    // proxy: {
+    //   '/api/list': {
+    //       target: 'http://www.u8see.com',
+    //       secure: false
+    //   }
+    // }
   },
   plugins: [
     new webpack.DefinePlugin({

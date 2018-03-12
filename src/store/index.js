@@ -110,11 +110,31 @@ export default new Vuex.Store({
   },
   actions: {
     loadData ({ commit }) {
-      return fetch('http://music.henshui.com/api/musicList.js?!234')
+      // return fetch('http://music.henshui.com/api/musicList.js?!234')
+      return fetch('/api/list', {
+        method: 'GET',
+        body: {
+          g_tk: 5381,
+          uin: 0,
+          format: 'json',
+          inCharset: 'utf-8',
+          outCharset: 'utf-8',
+          notice: 0,
+          platform: 'h5',
+          needNewCode: 1,
+          tpl: 3,
+          page: 'detail',
+          type: 'top',
+          topid: 26,
+          _: new Date()
+        }
+      })
         .then(response => response.text())
         .then(response => {
+          // console.log(response.songlist)
           let musicList = evil(response)
-          commit('getMusicList', musicList)
+          console.log(musicList.songlist[0].data)
+          // commit('getMusicList', musicList)
         })
     },
     prevNext ({ commit }, type) {

@@ -10,7 +10,23 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/api/list**': {
+          target: 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg',
+          //target: 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=26&_=1520859425817',
+          secure: false,
+          changeOrigin: true,
+          pathRewrite: {'^/api/list': ''}
+      }
+    
+      // ,
+      // '/test': {
+      //   target: 'https://u.y.qq.com/cgi-bin/musicu.fcg?_=1520858515925',
+      //   //secure: false
+      //   changeOrigin: true,
+      //   //pathRewrite: {'^/api/file': ''}
+      // }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
