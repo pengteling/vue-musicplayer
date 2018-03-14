@@ -30,7 +30,8 @@ export default{
       prevNext:'prevNext'
     }),
     ...mapActions({
-      loadData: 'loadData'
+      loadData: 'loadData',
+      setLrc : 'setLrc'
     }),
     getVolume (volume) {
       this.$refs.audio.getVolume(volume)
@@ -81,6 +82,11 @@ export default{
         this.$refs.audio.play()
       }
       //this.$refs.audio.doPlayPause()
+      // if(!this.lrc){
+      //   console.log("获取歌词")
+      //   this.setLrc()
+      // }
+      this.setLrc()
     },
     paused () {
       //console.log(this.paused)
@@ -105,8 +111,8 @@ export default{
   },
 
   mounted () {
-
-    this.loadData()
+    /* 默认载入 */
+    this.loadData(26)
       .then(()=>{
         //  console.log("then")
           this.playPause()

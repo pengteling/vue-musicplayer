@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {evil, formatTime} from '@/js/components/utils'
+import axios from 'axios'
+/* eslint no-unused-vars: off */
+import { evil, formatTime } from '@/js/components/utils'
 Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
@@ -32,8 +34,12 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setLrc (state, lrc) {
+      state.musicList[state.currentIndex].lrc = lrc
+    },
     getMusicList (state, musicList) {
       state.musicList = musicList
+      state.currentIndex = 0
     },
     changeRepeatType (state) {
       let oldRepeatType = state.repeatType
@@ -56,8 +62,8 @@ export default new Vuex.Store({
           currentIndex = (currentIndex + 1) % num
           // console.log(currentIndex)
         }
-      // } else if (repeatType === 'once') {
-      //   // 不变
+        // } else if (repeatType === 'once') {
+        //   // 不变
       } else {
         /* 随机 */
         let rd = (currentIndex) => {
@@ -109,32 +115,106 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    loadData ({ commit }) {
-      // return fetch('http://music.henshui.com/api/musicList.js?!234')
-      return fetch('/api/list', {
-        method: 'GET',
-        body: {
-          g_tk: 5381,
-          uin: 0,
-          format: 'json',
-          inCharset: 'utf-8',
-          outCharset: 'utf-8',
-          notice: 0,
-          platform: 'h5',
-          needNewCode: 1,
-          tpl: 3,
-          page: 'detail',
-          type: 'top',
-          topid: 26,
-          _: new Date()
+    setLrc ({ commit, state }) {
+      // https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric.fcg?g_tk=5381&uin=0&format=jsonp&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&nobase64=1&musicid=4962990&songtype=0&_=1521017730957&jsonpCallback=jsonp1
+      // axios.get(`https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric.fcg?g_tk=5381&uin=0&format=jsonp&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&nobase64=1&musicid=4962990&songtype=0&_=1521017730957&jsonpCallback=jsonp1`)
+      // http://ustbhuangyi.com/music/api/lyric?g_tk=1928093487&inCharset=utf-8&outCharset=utf-8&notice=0&format=json&songmid=0049snkO2mUJ55&platform=yqq&hostUin=0&needNewCode=0&categoryId=10000000&pcachetime=1521018975059
+      axios.get(`/api/lyric`,
+        {
+          // headers: {
+          //   referer: 'https://c.y.qq.com/',
+          //   host: 'c.y.qq.com'
+          // },
+          params:
+            {
+              g_tk: 1928093487,
+
+              inCharset: 'utf-8',
+              outCharset: 'utf-8',
+              notice: 0,
+              format: 'json',
+              // songmid: '0049snkO2mUJ55',
+              songmid: state.musicList[state.currentIndex] ? state.musicList[state.currentIndex].songmid : 0,
+
+              platform: 'yqq',
+              hostUin: 0,
+              nobase64: 1,
+
+              needNewCode: 0,
+              categoryId: 10000000,
+
+              pcachetime: +new Date()
+            }
+        }).then((data) => {
+        console.log(data.data.lyric)
+        if (data.data.lyric) {
+          commit('setLrc', data.data.lyric)
         }
       })
-        .then(response => response.text())
+    },
+    loadData ({ commit }, topid) {
+      console.log(+new Date())
+      // return fetch('http://music.henshui.com/api/musicList.js?!234')
+      return axios.get('fcg_v8_toplist_cp.fcg', {
+        // headers: {
+        //   referer: 'https://c.y.qq.com/',
+        //   host: 'c.y.qq.com'
+        // },
+        params:
+          {
+            g_tk: 5381,
+            uin: 0,
+            format: 'json',
+            inCharset: 'utf-8',
+            outCharset: 'utf-8',
+            notice: 0,
+            platform: 'h5',
+            needNewCode: 1,
+            tpl: 3,
+            page: 'detail',
+            type: 'top',
+            topid: topid,
+            _: +new Date()
+          }
+      })
+        // fetch('/api/list', {
+        //   method: 'get',
+        //   body: {
+        //     g_tk: 5381,
+        //     uin: 0,
+        //     format: 'json',
+        //     inCharset: 'utf-8',
+        //     outCharset: 'utf-8',
+        //     notice: 0,
+        //     platform: 'h5',
+        //     needNewCode: 1,
+        //     tpl: 3,
+        //     page: 'detail',
+        //     type: 'top',
+        //     topid: 26,
+        //     _: +new Date()
+        //   }
+        // })
+        // .then(response => response.text())
         .then(response => {
-          // console.log(response.songlist)
-          let musicList = evil(response)
-          console.log(musicList.songlist[0].data)
-          // commit('getMusicList', musicList)
+          // console.log(response)
+          let musicList = response.data.songlist
+          console.log(musicList)
+          musicList = musicList.map((item, i) => {
+            return {
+              id: i,
+              title: item.data.songname,
+              artist: item.data.singer.reduce((allsinger, singer) => {
+                return allsinger ? allsinger + '、' + singer.name : singer.name
+              }, ''),
+              file: `http://thirdparty.gtimg.com/C100${item.data.songmid}.m4a?fromtag=38`,
+              cover: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${item.data.albummid}.jpg?max_age=2592000`,
+              songmid: item.data.songmid,
+
+              lrc: ''
+            }
+          })
+          commit('getMusicList', musicList)
         })
     },
     prevNext ({ commit }, type) {
@@ -149,19 +229,19 @@ export default new Vuex.Store({
     changeRepeatType ({ commit }) {
       commit('changeRepeatType')
     },
-    updateTime ({commit}, time) {
+    updateTime ({ commit }, time) {
       commit('updateTime', time)
     },
-    getDuration ({commit}, time) {
+    getDuration ({ commit }, time) {
       commit('getDuration', time)
     },
-    playPause ({commit}) {
+    playPause ({ commit }) {
       commit('playPause')
     },
-    changeVolume ({commit}, volume) {
+    changeVolume ({ commit }, volume) {
       commit('changeVolume', volume)
     },
-    changeProgress ({commit}, progress) {
+    changeProgress ({ commit }, progress) {
       commit('changeProgress', progress)
     }
   }

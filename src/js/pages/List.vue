@@ -14,7 +14,7 @@
 
 <script>
 import './List.scss'
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 // import {EventBus} from '@/eventBus'
 import MusicItem from '@/js/components/MusicItem.jsx'
 export default {
@@ -28,7 +28,17 @@ export default {
     ...mapGetters({
       currentItem: 'currentMusicItem'
     })
+  },
+  methods: {
+    ...mapActions(['loadData'])
+  },
+  watch: {
+    '$route.params.id' () {
+      if (this.$route.params.id) {
+        console.log(this.$route.params.id)
+        this.loadData(this.$route.params.id)
+      }
+    }
   }
-
 }
 </script>

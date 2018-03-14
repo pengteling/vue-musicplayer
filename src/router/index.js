@@ -43,7 +43,13 @@ export default new Router({
         {
           path: 'list',
           name: 'List',
-          component: List
+          component: List,
+          children: [
+            {
+              path: ':id',
+              component: List
+            }
+          ]
         }
       ]
     }

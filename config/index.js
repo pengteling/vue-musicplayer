@@ -11,21 +11,26 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api/list**': {
-          target: 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg',
-          //target: 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=26&_=1520859425817',
-          secure: false,
-          changeOrigin: true,
-          pathRewrite: {'^/api/list': ''}
-      }
+      
     
-      // ,
-      // '/test': {
+      // '/api/file': {
       //   target: 'https://u.y.qq.com/cgi-bin/musicu.fcg?_=1520858515925',
-      //   //secure: false
+      //   secure: false,
       //   changeOrigin: true,
-      //   //pathRewrite: {'^/api/file': ''}
-      // }
+      //   pathRewrite: {'^/api/file': ''}
+      // },
+      '/fcg_v8_toplist_cp.fcg': {
+        target: 'https://c.y.qq.com/v8/fcg-bin/',
+        //target: 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=26&_=1520859425817',
+        //secure: false,
+        changeOrigin: true,
+        //pathRewrite: {'^/api/list': ''}
+      },
+      'api/lyric**':{
+        target: 'http://ustbhuangyi.com/music/',
+        changeOrigin: true,
+        //pathRewrite: {'^/api/list': ''}
+      }
     },
 
     // Various Dev Server settings
