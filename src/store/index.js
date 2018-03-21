@@ -119,7 +119,7 @@ export default new Vuex.Store({
       // https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric.fcg?g_tk=5381&uin=0&format=jsonp&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&nobase64=1&musicid=4962990&songtype=0&_=1521017730957&jsonpCallback=jsonp1
       // axios.get(`https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric.fcg?g_tk=5381&uin=0&format=jsonp&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&nobase64=1&musicid=4962990&songtype=0&_=1521017730957&jsonpCallback=jsonp1`)
       // http://ustbhuangyi.com/music/api/lyric?g_tk=1928093487&inCharset=utf-8&outCharset=utf-8&notice=0&format=json&songmid=0049snkO2mUJ55&platform=yqq&hostUin=0&needNewCode=0&categoryId=10000000&pcachetime=1521018975059
-      axios.get(`/api/lyric`,
+      axios.get(`music/api/lyric`,
         {
           // headers: {
           //   referer: 'https://c.y.qq.com/',

@@ -26,8 +26,8 @@ module.exports = {
         changeOrigin: true,
         //pathRewrite: {'^/api/list': ''}
       },
-      'api/lyric**':{
-        target: 'http://ustbhuangyi.com/music/',
+      '/music/api/lyric':{
+        target: 'http://ustbhuangyi.com/',
         changeOrigin: true,
         //pathRewrite: {'^/api/list': ''}
       }
