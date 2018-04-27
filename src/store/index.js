@@ -207,7 +207,8 @@ export default new Vuex.Store({
               artist: item.data.singer.reduce((allsinger, singer) => {
                 return allsinger ? allsinger + '、' + singer.name : singer.name
               }, ''),
-              file: `http://thirdparty.gtimg.com/C100${item.data.songmid}.m4a?fromtag=38`,
+              // file: `http://thirdparty.gtimg.com/C100${item.data.songmid}.m4a?fromtag=38`,
+              file: `http://dl.stream.qqmusic.qq.com/C400${item.data.songmid}/${item.data.songid}.m4a?guid=263427534&fromtag=66`,
               cover: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${item.data.albummid}.jpg?max_age=2592000`,
               songmid: item.data.songmid,
 
