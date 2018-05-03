@@ -213,10 +213,23 @@ a{
   ul{
     height: 400px;
     overflow-y: auto;
+    &::after{
+      content:'';
+      display:block;
+      padding-top: 200px;
+    }
     li{
-      transition: all 0.3s;
+      line-height: 32px;
+      min-height: 32px;
+      transition: opacity 0.5s;
+      font-size:16px;
+      opacity: 0.5;
       &.cur{
-        color:#2f9842;
+        // color:#2f9842;
+        color:#cc0000;
+        font-size:18px;
+        font-weight: 600;
+        opacity: 1;
       }
     }
   }

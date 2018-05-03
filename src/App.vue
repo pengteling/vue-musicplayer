@@ -8,7 +8,7 @@
 
 <script>
 
-import './assets/Comm.scss'
+import './assets/comm.scss'
 export default {
   name: 'App'
 }

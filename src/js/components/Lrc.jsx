@@ -62,7 +62,7 @@ export default {
         //   _: +new Date(),
         //   jsonpCallback: 'jsonp1'
         // }
-    
+
   },
   mounted() {
     // EventBus.$on('lrcTime', (time) => {
