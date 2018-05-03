@@ -146,7 +146,7 @@ export default new Vuex.Store({
               pcachetime: +new Date()
             }
         }).then((data) => {
-        console.log(data.data.lyric)
+        // console.log(data.data.lyric)
         if (data.data.lyric) {
           commit('setLrc', data.data.lyric)
         }
@@ -199,7 +199,7 @@ export default new Vuex.Store({
         .then(response => {
           // console.log(response)
           let musicList = response.data.songlist
-          console.log(musicList)
+          // console.log(musicList)
           musicList = musicList.map((item, i) => {
             return {
               id: i,
@@ -208,7 +208,14 @@ export default new Vuex.Store({
                 return allsinger ? allsinger + '、' + singer.name : singer.name
               }, ''),
               // file: `http://thirdparty.gtimg.com/C100${item.data.songmid}.m4a?fromtag=38`,
-              file: `http://dl.stream.qqmusic.qq.com/C400${item.data.songmid}/${item.data.songid}.m4a?guid=263427534&fromtag=66`,
+              // file: `http://dl.stream.qqmusic.qq.com/C400${item.data.songmid}/${item.data.songid}.m4a?guid=263427534&fromtag=66`,
+              file: {
+                songmid: item.data.songmid,
+                filename: `C400${item.data.songmid}.m4a`,
+                format: 'jsonp',
+                jsonpCallback: 'callback',
+                songid: `${item.data.songid}`
+              },
               cover: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${item.data.albummid}.jpg?max_age=2592000`,
               songmid: item.data.songmid,
 

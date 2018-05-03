@@ -2,8 +2,8 @@
 
 // import {formatTime} from '@/js/components/utils'
 import { mapState, mapGetters, mapActions } from 'vuex'
-
-export default{  
+import axios from 'axios'
+export default{
   data () {
     return {
     }
@@ -13,11 +13,11 @@ export default{
   render () {
     return (
       <div>
-        <audio          
+        <audio
           ref="audio"
           onTimeupdate={this.timeupdate}
           onLoadedmetadata = {this.loadedmetadata}
-          onEnded = {this.ended}                
+          onEnded = {this.ended}
         />
       </div>
     )
@@ -77,10 +77,42 @@ export default{
   watch: {
     currentFile () {
       console.log("发生变化")
-      this.$refs.audio.src = this.currentMusicItem.file
-      if(!this.paused){
-        this.$refs.audio.play()
-      }
+
+      // let songurl= `http://dl.stream.qqmusic.qq.com/C400${this.currentFile.songmid}/${this.currentFile.songid}.m4a?guid=263427534&fromtag=66`
+      // this.$refs.audio.src = songurl
+      //https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?g_tk=5381&jsonpCallback=MusicJsonCallback41947488562419744&loginUin=0&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&cid=205361747&callback=MusicJsonCallback41947488562419744&uin=0&songmid=004b2hd01Ddhpl&filename=C400002EWz1t2pc6KC.m4a&guid=1044092206
+      axios.get('/api/getVkey',{
+        params:{
+          g_tk:5381,
+          //jsonpCallback:'MusicJsonCallback41947488562419744',
+
+          loginUin:0,
+          hostUin:0,
+          format:'json',
+          inCharset: 'utf-8',
+          outCharset: 'utf-8',
+          notice:0,
+          platform:'yqq',
+          needNewCode:0,
+          cid:205361747,
+          //callback:'MusicJsonCallback41947488562419744',
+          uin:0,
+          songmid:this.currentFile.songmid,
+          filename:this.currentFile.filename,
+          guid:1044092206
+        }
+      }).then(response=>{
+        let songinfo =response.data.data.items[0]
+        let songurl =
+        `http://dl.stream.qqmusic.qq.com/${songinfo.filename}?vkey=${songinfo.vkey}&guid=1044092206&uin=0&fromtag=66`
+        this.$refs.audio.src = songurl
+        if(!this.paused){
+          this.$refs.audio.oncanplay = ()=>{
+            this.$refs.audio.play()
+          }
+        }
+      })
+
       //this.$refs.audio.doPlayPause()
       // if(!this.lrc){
       //   console.log("获取歌词")
@@ -92,9 +124,9 @@ export default{
       //console.log(this.paused)
       //console.log(this.$refs.audio)
       if(this.$refs.audio.paused){
-        this.$refs.audio.play()      
+        this.$refs.audio.play()
       }else{
-        this.$refs.audio.pause()      
+        this.$refs.audio.pause()
       }
     },
     volume (volume) {
@@ -119,12 +151,12 @@ export default{
           //this.$refs.audio.doPlayPause()
           //console.log(this.$store.getters['list/currentMusicItem'].file)
           // this.$store.dispatch('player/playPause',{
-            
+
           // })
       })
-      
-    
-    
+
+
+
 
     /* 监听从播放页传来的调整音量 */
   }
