@@ -106,11 +106,14 @@ export default{
         let songurl =
         `http://dl.stream.qqmusic.qq.com/${songinfo.filename}?vkey=${songinfo.vkey}&guid=1044092206&uin=0&fromtag=66`
         this.$refs.audio.src = songurl        
-        this.playPause()
-        // this.$refs.audio.oncanplay = ()=>{
-        //   console.log("canplay");
-        //   this.playPause()
-        // }
+        //this.playPause()
+        this.$refs.audio.oncanplay = ()=>{
+          console.log("canplay")
+          if(!this.paused){
+
+            this.$refs.audio.play()
+          }
+        }
         
         // if(!this.paused){
         //   this.$refs.audio.oncanplay = ()=>{
@@ -126,10 +129,10 @@ export default{
       // }
       this.setLrc()
     },
-    paused () {
+    paused (to) {
       //console.log(this.paused)
       //console.log(this.$refs.audio)
-      if(this.$refs.audio.paused){
+      if(!to){
         this.$refs.audio.play()
         // this.$refs.audio.oncanplay = ()=>{
         //   this.$refs.audio.play()
