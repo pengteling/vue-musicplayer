@@ -14,7 +14,7 @@ export default{
     return (
       <div>
         <audio
-          ref="audio"
+          ref="audio"          
           onTimeupdate={this.timeupdate}
           onLoadedmetadata = {this.loadedmetadata}
           onEnded = {this.ended}
@@ -105,12 +105,18 @@ export default{
         let songinfo =response.data.data.items[0]
         let songurl =
         `http://dl.stream.qqmusic.qq.com/${songinfo.filename}?vkey=${songinfo.vkey}&guid=1044092206&uin=0&fromtag=66`
-        this.$refs.audio.src = songurl
-        if(!this.paused){
-          this.$refs.audio.oncanplay = ()=>{
-            this.$refs.audio.play()
-          }
-        }
+        this.$refs.audio.src = songurl        
+        this.playPause()
+        // this.$refs.audio.oncanplay = ()=>{
+        //   console.log("canplay");
+        //   this.playPause()
+        // }
+        
+        // if(!this.paused){
+        //   this.$refs.audio.oncanplay = ()=>{
+        //     //this.$refs.audio.play()
+        //   }
+        // }
       })
 
       //this.$refs.audio.doPlayPause()
@@ -125,6 +131,9 @@ export default{
       //console.log(this.$refs.audio)
       if(this.$refs.audio.paused){
         this.$refs.audio.play()
+        // this.$refs.audio.oncanplay = ()=>{
+        //   this.$refs.audio.play()
+        // }
       }else{
         this.$refs.audio.pause()
       }
@@ -146,8 +155,9 @@ export default{
     /* 默认载入 */
     this.loadData(26)
       .then(()=>{
+        
         //  console.log("then")
-          this.playPause()
+          // this.playPause()
           //this.$refs.audio.doPlayPause()
           //console.log(this.$store.getters['list/currentMusicItem'].file)
           // this.$store.dispatch('player/playPause',{
